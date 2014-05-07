@@ -88,7 +88,7 @@ MineField.prototype.lineY = function () {
 
 	}.bind(this));
 
-	this.mine();
+	this.setBombs();
 };
 
 /*
@@ -121,12 +121,4 @@ MineField.prototype.setBombs = function () {
 	this.game.forEach(function (value, index) {
 		this.game[index].line.shuffle();
 	}.bind(this));
-};
-
-
-/*
- * MineField.mine
- * */
-MineField.prototype.mine = function () {
-	this.setBombs();
 };
