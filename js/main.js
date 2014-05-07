@@ -71,7 +71,7 @@ MineField.prototype.create = function (args) {
 
 	}.bind(this));
 
-	this.mine();
+	this.setBombs();
 };
 
 /*
@@ -101,12 +101,12 @@ MineField.prototype.range = function (a, b) {
 
 /*
  * MineField.setBombs
+ *
  * set bombs by line
  * */
 MineField.prototype.setBombs = function () {
 	var input = this.mines,
-			index,
-			counter = 0;
+			index;
 
 	while (input > 0) {
 		index = this.range(this.game.length, 0);
@@ -121,4 +121,5 @@ MineField.prototype.setBombs = function () {
 	this.game.forEach(function (value, index) {
 		this.game[index].line.shuffle();
 	}.bind(this));
+
 };
