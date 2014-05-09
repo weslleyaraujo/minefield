@@ -1,14 +1,4 @@
 /*
- * @Shuffle
- *
- * add shuffle to Array prototype
- * */
-Array.prototype.shuffle = function () {
-   for(var j, x, i = this.length; i; j = Math.floor(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
-   return this;
-}
-
-/*
  * @MineField
  *
  * main class for minefield definition
@@ -64,10 +54,13 @@ MineField.prototype.error = function () {
  * */
 MineField.prototype.create = function (args) {
 	this.game = Array.apply(null, { length: this.X } ).map(function () {
-		return arguments[1] = {
+		var line = arguments[1];
+		line = {
 			line: this.lineY(),
 			bombs: 0
 		};
+
+		return line;
 
 	}.bind(this));
 
@@ -81,21 +74,16 @@ MineField.prototype.create = function (args) {
  * */
 MineField.prototype.lineY = function () {
 	return Array.apply(null, { length: this.Y } ).map(function () {
-		return arguments[1] = {
+		var line =  arguments[1];
+		line = {
 			explored: false,
 			bomb: false
 		};
 
+		return line;
+
 	}.bind(this));
 
-	this.setBombs();
-};
-
-/*
- * MineField.range
- * */
-MineField.prototype.range = function (a, b) {
-	return Math.floor(Math.random() * a) + b;
 };
 
 
@@ -109,10 +97,10 @@ MineField.prototype.setBombs = function () {
 			index;
 
 	while (input > 0) {
-		index = this.range(this.game.length, 0);
-		this.game[index].bombs++;
+		index = Math.range(this.game.length, 0);
 
-		if (this.game[index].bombs <= this.X) {
+		if (this.game[index].bombs < this.X) {
+			this.game[index].bombs++;
 			input = input -1;
 			this.game[index].line[this.game[index].bombs - 1].bomb = true;
 		}

@@ -1,0 +1,19 @@
+{
+  "name": "minefield",
+  "version": "0.0.0",
+  "description": "yeah thats it",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://weslleyaraujo@bitbucket.org/weslleyaraujo/minefield.git"
+  },
+  "author": "Weslley Araujo <weslleyaraujo20@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^0.4.4",
+    "grunt-contrib-jshint": "^0.10.0"
+  }
+}
