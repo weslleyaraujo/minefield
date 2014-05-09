@@ -15,8 +15,7 @@ var GameView = function (minefield) {
  * */
 GameView.prototype.initialize = function (minefield) {
 	this.minefield = minefield;
-	this.set();
-	this.render();
+	this.set().bind().render();
 };
 
 /*
@@ -26,7 +25,9 @@ GameView.prototype.initialize = function (minefield) {
  * */
 GameView.prototype.set = function () {
 	this.$main = $('#game');
+	this.$page = $(document);
 	this.template = window.Helpers.template('#field-template');
+	return this;
 };
 
 /*
@@ -46,6 +47,8 @@ GameView.prototype.render = function () {
 		this.$main.append($('<tr>').html(line));
 
 	}.bind(this));
+
+	return this;
 };
 
 /*
@@ -55,4 +58,26 @@ GameView.prototype.render = function () {
  * */
 GameView.prototype.item = function (data) {
 	return this.template(data);
+};
+
+/*
+ * GameView.bind
+ *
+ * bind elements
+ * */
+GameView.prototype.bind = function () {
+	this.$page.on('click', '.field-link', $.proxy(this.explore, this));
+	return this;
+};
+
+/*
+ * GameView.explore
+ *
+ * explore field on click
+ * */
+GameView.prototype.explore = function (event) {
+	var line = event.target.getAttribute('data-line'),
+			position = event.target.getAttribute('data-position');
+
+	console.log(line, position, this.minefield.game[line].line[position]);
 };
