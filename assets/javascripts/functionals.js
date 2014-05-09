@@ -1,4 +1,11 @@
 /*
+ * @Helpers
+ *
+ * a lot of helpers (or not)
+ * */
+window.Helpers = {};
+
+/*
  * @Shuffle
  *
  * add shuffle to Array prototype
@@ -18,13 +25,11 @@ Math.range = function (a, b) {
 };
 
 /*
- * @app
+ * @template
  *
- * global application
+ * template helper for underscore
  * */
-
-window.App = {
-	main: {
-	
-	}
-};
+window.Helpers.template = function (selector) {
+	var content = $(selector).html();
+	return _.template(content ? content : '');
+}

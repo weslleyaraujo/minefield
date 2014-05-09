@@ -1,26 +1,40 @@
 <!doctype html>
 <html class="no-js">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>MineField do bigode</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>MineField do bigode</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="assets/css/normalize.css">
+		<link rel="stylesheet" href="assets/css/main.css">
+	</head>
+	<body>
 
-        <link rel="stylesheet" href="assets/css/normalize.css">
-        <link rel="stylesheet" href="assets/css/main.css">
-    </head>
-    <body>
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+		<table id="game">
+		</table>
 
-				<script src="assets/javascripts/functionals.js"></script>
-        <script src="assets/javascripts/minefield.js"></script>
-				<script>
-					new MineField({
-						x: 6,
-						y: 6,
-						mines: 20
-					});
-				</script>
-    </body>
+		<script type="text/template" id="field-template">
+			<td>
+				<a class="not-explored field"
+					href="javascript:void(0)"
+					data-line="<%= line  %>">
+					--
+				</a>
+			</td>
+		</script>
+
+		<script src="bower_components/jquery/dist/jquery.js"></script>
+		<script src="bower_components/underscore/underscore.js"></script>
+		<script src="assets/javascripts/functionals.js"></script>
+		<script src="assets/javascripts/game-view.js"></script>
+		<script src="assets/javascripts/minefield.js"></script>
+		<script>
+			new MineField({
+				x: 10,
+				y: 10,
+				mines: 5
+			});
+		</script>
+	</body>
 </html>

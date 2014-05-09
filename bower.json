@@ -1,0 +1,15 @@
+{
+  "name": "minefield",
+  "version": "0.0.0",
+  "authors": [
+    "Weslley Araujo <weslleyaraujo20@gmai.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
