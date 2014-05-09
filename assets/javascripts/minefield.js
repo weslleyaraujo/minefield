@@ -78,7 +78,7 @@ MineField.prototype.createLine = function (index) {
 		field = {
 			explored: false,
 			bomb: false,
-			next: 0,
+			near: 0,
 			line: index
 		};
 
@@ -112,22 +112,91 @@ MineField.prototype.setBombs = function () {
 		this.game[index].line.shuffle();
 
 		// set 'real' position
-		this.game[index].line.map(function (value, index) {
-			 value.position = index;
-				return value;
+		this.game[index].line.map(function (field, position) {
+			field.position = position;
+			return field;
 		});
 
 	}.bind(this));
 
-	this.setNext();
+	this.setNear();
 };
+
+/*
+ * MineField.count
+ *
+ * count bombs next to the field
+ * */
+MineField.prototype.count = function (field) {
+	var next = (field.position + 1),
+			prev = field.position - 1,
+			total = 0,
+
+			/*
+			 * create the lines to check
+			 * (upperline, lowerline, line)
+			 *
+			 * */
+			lines = [
+				(field.line - 1),
+				(field.line + 1),
+				field.line
+			];
+	
+	lines.forEach(function (value) {
+		if (!field.bomb) {
+			// total = this.hasBomb(value, prev, total);
+			// total = this.hasBomb(value, next, total);
+			// total = this.hasBomb(value, field.position, total);
+
+			if (this.game[value] && this.game[value].line[prev] && this.game[value].line[prev].bomb) {
+				total++;
+			}
+
+			if (this.game[value] && this.game[value].line[next] && this.game[value].line[next].bomb) {
+				total++;
+			}
+
+			if (this.game[value] && this.game[value].line[field.position] && this.game[value].line[field.position].bomb) {
+				total++;
+			}
+		}
+
+
+	}.bind(this));
+
+	field.near = total;
+	return field;
+};
+
+/*
+ * MineField.hasBomb
+ *
+ * has bombs near to the field
+ * */
+MineField.prototype.hasBomb = function (line, position, total) {
+	if (this.game[line] && this.game[line].line[position] && this.game[line].line[position].bomb) {
+		return total++;
+	}
+
+	return total;
+}
 
 /*
  * MineField.setNext
  *
- * set bombs next to the field
+ * set bombs near to the field
  * */
-MineField.prototype.setNext = function () {
-	console.log('set next logic....');
+MineField.prototype.setNear = function () {
+
+	this.game.forEach(function (value, index) {
+
+		this.game[index].line.map(function (field, position) {
+			return this.count(field);
+		}.bind(this));
+
+	}.bind(this));
+
+	// Create final view
 	new GameView(this);
 };
