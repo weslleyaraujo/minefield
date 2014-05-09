@@ -56,7 +56,7 @@ MineField.prototype.create = function (args) {
 	this.game = Array.apply(null, { length: this.Y } ).map(function () {
 		var line = arguments[1];
 		line = {
-			line: this.lineX(),
+			line: this.createLine(arguments[1]),
 			bombs: 0
 		};
 
@@ -68,21 +68,21 @@ MineField.prototype.create = function (args) {
 };
 
 /*
- * MineField.lineX
+ * MineField.line
  *
- * creates the X line
+ * creates the  line
  * */
-MineField.prototype.lineX = function () {
-
+MineField.prototype.createLine = function (index) {
 	return Array.apply(null, { length: this.X } ).map(function () {
-		var line =  arguments[1];
-		line = {
+		var field =  arguments[1];
+		field = {
 			explored: false,
 			bomb: false,
-			next: 0
+			next: 0,
+			line: index
 		};
 
-		return line;
+		return field;
 
 	}.bind(this));
 
@@ -110,6 +110,13 @@ MineField.prototype.setBombs = function () {
 
 	this.game.forEach(function (value, index) {
 		this.game[index].line.shuffle();
+
+		// set 'real' position
+		this.game[index].line.map(function (value, index) {
+			 value.position = index;
+				return value;
+		});
+
 	}.bind(this));
 
 	this.setNext();

@@ -39,8 +39,7 @@ GameView.prototype.render = function () {
 	var line;
 
 	this.minefield.game.forEach(function (value, index) {
-
-		line = value.line.map(function(field){
+		line = value.line.map(function(field) {
 			return this.template(field);
 		}.bind(this)).join('');
 		
@@ -54,6 +53,6 @@ GameView.prototype.render = function () {
  *
  * returns an element
  * */
-GameView.prototype.item = function () {
-	return this.template();
+GameView.prototype.item = function (data) {
+	return this.template(data);
 };
