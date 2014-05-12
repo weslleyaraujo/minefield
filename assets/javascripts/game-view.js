@@ -92,8 +92,6 @@ GameView.prototype.expand = function (line, position) {
 	var field = this.minefield.get(line, position);
 	field = this.minefield.set(field, 'explored', true);
 
-	console.log(field);
-
 	if (field.bomb) {
 		this.lose();
 	}

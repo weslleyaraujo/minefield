@@ -1,0 +1,13 @@
+/*
+ * Smacss guide style
+ */
+@import 'compass'
+
+$module-name: 'near'
+$module-colors: #0000ff, #008200, #ff0000, #000084, #840000, #008284, #840084, #000000
+
+@for $i from 1 through length($module-colors)
+  $color: nth($module-colors, $i)
+  .#{$module-name}-#{$i}
+    color: $color
+    
