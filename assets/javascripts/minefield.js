@@ -211,3 +211,16 @@ MineField.prototype.set = function (field, index, value) {
 	field[index] = value;
 	return field;
 };
+
+/*
+ * MineField.exploredAll
+ *
+ * set all fields to explored
+ * */
+MineField.prototype.exploredAll = function () {
+	this.game.forEach(function (value) {
+		value.line.forEach(function (field) {
+			this.set(field, 'explored', true);
+		}.bind(this));
+	}.bind(this));
+};

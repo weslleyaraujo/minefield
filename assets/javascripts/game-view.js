@@ -109,5 +109,6 @@ GameView.prototype.expand = function (line, position) {
  * execute after lose game
  * */
 GameView.prototype.lose = function () {
-	alert('perdeu');
+	this.minefield.exploredAll();
+	alert('SE FODEO');
 };
