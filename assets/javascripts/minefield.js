@@ -192,3 +192,22 @@ MineField.prototype.setNear = function () {
 		minefield: this
 	});
 };
+
+/*
+ * MineField.get
+ *
+ * get the field by reference
+ * */
+MineField.prototype.get = function (line, position) {
+	return this.game[line].line[position];
+};
+
+/*
+ * MineField.set
+ *
+ * set field value
+ * */
+MineField.prototype.set = function (field, index, value) {
+	field[index] = value;
+	return field;
+};

@@ -1,13 +1,15 @@
 /*
  * Smacss guide style
  */
+@import 'compass'
 
 $module-name: 'field'
 $module-width: 18px
 $module-height: 18px
 $module-border-color: #AEAEAE
 $module-link-color: #666
-$module-background-color: #E7E7E7
+$module-background-color: #CECECE
+$module-background-color-explored: #F1F1F1
 $module-box-shadow: inset 1px 1px 1px #E6E6E6, inset -1px -1px 1px #B4B4B4
 
 .#{$module-name}
@@ -22,3 +24,8 @@ $module-box-shadow: inset 1px 1px 1px #E6E6E6, inset -1px -1px 1px #B4B4B4
   color: $module-link-color
   text-decoration: none
   +box-shadow($module-box-shadow)
+
+  // states
+  &.is-explored
+    background-color: $module-background-color-explored
+    +box-shadow(none)

@@ -1,18 +1,27 @@
 /* Smacss guide style
  */
-/* line 12, ../../sass/modules/field.sass */
+/* line 15, ../../sass/modules/field.sass */
 .field {
   border: 1px solid #aeaeae;
   text-align: center;
 }
 
-/* line 16, ../../sass/modules/field.sass */
+/* line 19, ../../sass/modules/field.sass */
 .field-link {
-  background-color: #e7e7e7;
+  background-color: #cecece;
   display: block;
   width: 18px;
   height: 18px;
   color: #666666;
   text-decoration: none;
+  -webkit-box-shadow: inset 1px 1px 1px #e6e6e6, inset -1px -1px 1px #b4b4b4;
+  -moz-box-shadow: inset 1px 1px 1px #e6e6e6, inset -1px -1px 1px #b4b4b4;
   box-shadow: inset 1px 1px 1px #e6e6e6, inset -1px -1px 1px #b4b4b4;
+}
+/* line 29, ../../sass/modules/field.sass */
+.field-link.is-explored {
+  background-color: #f1f1f1;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }

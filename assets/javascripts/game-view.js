@@ -37,7 +37,7 @@ GameView.prototype.set = function () {
  * render the elements inside table
  * */
 GameView.prototype.render = function () {
-	this.$main.html();
+	this.$main.html('');
 	var line;
 
 	this.minefield.game.forEach(function (value, index) {
@@ -80,6 +80,34 @@ GameView.prototype.explore = function (event) {
 	var line = event.target.getAttribute('data-line'),
 			position = event.target.getAttribute('data-position');
 
+	this.expand(line, position).render();
+};
 
-	console.log(line, position, this.minefield.game[line].line[position]);
+/*
+ * GameView.expand
+ *
+ * expand fields by position
+ * */
+GameView.prototype.expand = function (line, position) {
+	var field = this.minefield.get(line, position);
+	field = this.minefield.set(field, 'explored', true);
+
+	console.log(field);
+
+	if (field.bomb) {
+		this.lose();
+	}
+
+	console.log(this.minefield.game[line].line[position]);
+
+	return this;
+};
+
+/*
+ * GameView.lose
+ *
+ * execute after lose game
+ * */
+GameView.prototype.lose = function () {
+	alert('perdeu');
 };

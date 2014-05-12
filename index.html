@@ -17,14 +17,14 @@
 
 		<script type="text/template" id="field-template">
 			<td class="field">
-				<a class="not-explored field-link"
+				<a class="field-link <% if (explored) { %> is-explored near-<%= near %> <% } %>"
 					href="javascript:void(0)"
 					data-line="<%= line %>"
 					data-position="<%= position %>">
-					<% if (bomb) { %>
+					<% if (explored && !(bomb)) { %>
+						<% if (near > 0 ) { %> <%= near %> <% } %>
+					<% } else if (bomb && explored) { %>
 						*
-					<% } else { %>
-						<%= near %>
 					<% } %>
 				</a>
 			</td>
