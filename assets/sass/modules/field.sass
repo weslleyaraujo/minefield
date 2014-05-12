@@ -1,0 +1,24 @@
+/*
+ * Smacss guide style
+ */
+
+$module-name: 'field'
+$module-width: 18px
+$module-height: 18px
+$module-border-color: #AEAEAE
+$module-link-color: #666
+$module-background-color: #E7E7E7
+$module-box-shadow: inset 1px 1px 1px #E6E6E6, inset -1px -1px 1px #B4B4B4
+
+.#{$module-name}
+  border: 1px solid $module-border-color
+  text-align: center
+
+.#{$module-name}-link
+  background-color: $module-background-color
+  display: block
+  width: $module-width
+  height: $module-height
+  color: $module-link-color
+  text-decoration: none
+  +box-shadow($module-box-shadow)

@@ -373,9 +373,3 @@ table {
 td, th {
   padding: 0;
 }
-
-/* line 341, ../sass/normalize.sass */
-td {
-  width: 16px;
-  height: 16px;
-}

@@ -4,18 +4,29 @@ module.exports = function (grunt) {
 	var tasks = [
 		'grunt-contrib-jshint',
 		'grunt-contrib-compass',
-		'grunt-contrib-watch'
+		'grunt-contrib-watch',
+		'grunt-concat-css'
 	];
 
 	grunt.initConfig({
 		watch: {
 			css: {
 				files: [
-					'assets/sass/*.sass'
+					'assets/sass/*.sass',
+					'assets/sass/**/*.sass',
 				],
 				tasks: [
-					'compass:dev'
+					'compass:dev',
+					'concat_css'
 				]
+			}
+		},
+		concat_css: {
+			all: {
+				src: [
+					'assets/css/modules/*.css'
+				],
+				dest: 'assets/css/game.css'
 			}
 		},
 		jshint: {

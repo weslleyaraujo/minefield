@@ -8,23 +8,24 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="assets/css/normalize.css">
 		<link rel="stylesheet" href="assets/css/main.css">
+		<link rel="stylesheet" href="assets/css/game.css">
 	</head>
 	<body>
 
-		<table id="game">
+		<table id="game" class="the-mines">
 		</table>
 
 		<script type="text/template" id="field-template">
-			<td>
+			<td class="field">
 				<a class="not-explored field-link"
 					href="javascript:void(0)"
 					data-line="<%= line %>"
 					data-position="<%= position %>">
 					<% if (bomb) { %>
-						<img src="http://files.gamebanana.com/img/ico/sprays/bombspray.gif" width="16" height="16" />
+						*
 					<% } else { %>
 						<%= near %>
-					<% }%>
+					<% } %>
 				</a>
 			</td>
 		</script>
