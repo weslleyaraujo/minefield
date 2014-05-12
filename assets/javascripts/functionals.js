@@ -32,4 +32,4 @@ Math.range = function (a, b) {
 window.Helpers.template = function (selector) {
 	var content = $(selector).html();
 	return _.template(content ? content : '');
-}
+};

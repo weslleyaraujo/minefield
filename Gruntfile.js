@@ -9,11 +9,12 @@ module.exports = function (grunt) {
 		jshint: {
 			all: [
 				'Gruntfile.js',
-				'assets/javascripts/main.js'
+				'assets/javascripts/functionals.js',
+				'assets/javascripts/game-view.js',
+				'assets/javascripts/minefield.js'
 			]
 		}
 	});
-
 
 	tasks.forEach(grunt.loadNpmTasks);
 	grunt.registerTask('default', ['jshint']);

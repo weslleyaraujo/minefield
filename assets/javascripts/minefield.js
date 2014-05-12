@@ -30,8 +30,7 @@ MineField.prototype.initialize = function (args) {
  * */
 MineField.prototype.validate = function (args) {
 	if (this.mines >= this.total) {
-		this.validationMessage = 'The number of mines cant be greater or equal of the total of fields';
-		this.error();
+		this.error('The number of mines cant be greater or equal of the total number of fields');
 		return false;
 	}
 
@@ -43,8 +42,8 @@ MineField.prototype.validate = function (args) {
  *
  * throw errors
  * */
-MineField.prototype.error = function () {
-	throw new Error(this.validationMessage);
+MineField.prototype.error = function (message) {
+	throw new Error(message || 'Some unknow error happend :(');
 };
 
 /*
@@ -119,6 +118,7 @@ MineField.prototype.setBombs = function () {
 
 	}.bind(this));
 
+	// set how many bombs are near to the fields
 	this.setNear();
 };
 
@@ -129,43 +129,32 @@ MineField.prototype.setBombs = function () {
  * */
 MineField.prototype.count = function (field) {
 	var next = (field.position + 1),
-			prev = field.position - 1,
-			total = 0,
+	prev = field.position - 1,
+	bombs = 0,
 
-			/*
-			 * create the lines to check
-			 * (upperline, lowerline, line)
-			 *
-			 * */
-			lines = [
-				(field.line - 1),
-				(field.line + 1),
-				field.line
-			];
-	
-	lines.forEach(function (value) {
-		if (!field.bomb) {
-			// total = this.hasBomb(value, prev, total);
-			// total = this.hasBomb(value, next, total);
-			// total = this.hasBomb(value, field.position, total);
+	/*
+	 * create the lines to check
+	 * (upperline, lowerline, line)
+	 *
+	 * */
+	lines = [
+		(field.line - 1),
+		(field.line + 1),
+		field.line
+	];
 
-			if (this.game[value] && this.game[value].line[prev] && this.game[value].line[prev].bomb) {
-				total++;
-			}
+	if (!field.bomb) {
+		bombs = lines.reduce(function (total, value) {
+			total = this.hasBomb(value, prev, total);
+			total = this.hasBomb(value, next, total);
+			total = this.hasBomb(value, field.position, total);
 
-			if (this.game[value] && this.game[value].line[next] && this.game[value].line[next].bomb) {
-				total++;
-			}
+			return total;
 
-			if (this.game[value] && this.game[value].line[field.position] && this.game[value].line[field.position].bomb) {
-				total++;
-			}
-		}
+		}.bind(this), bombs);
+	}
 
-
-	}.bind(this));
-
-	field.near = total;
+	field.near = bombs;
 	return field;
 };
 
@@ -176,14 +165,15 @@ MineField.prototype.count = function (field) {
  * */
 MineField.prototype.hasBomb = function (line, position, total) {
 	if (this.game[line] && this.game[line].line[position] && this.game[line].line[position].bomb) {
-		return total++;
+		total++;
+		return total;
 	}
 
 	return total;
-}
+};
 
 /*
- * MineField.setNext
+ * MineField.setNear
  *
  * set bombs near to the field
  * */
@@ -198,5 +188,7 @@ MineField.prototype.setNear = function () {
 	}.bind(this));
 
 	// Create final view
-	new GameView(this);
+	new GameView({
+		minefield: this
+	});
 };

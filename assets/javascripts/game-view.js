@@ -4,8 +4,9 @@
  * main class for game view definition
  * */
 
-var GameView = function (minefield) {
-	this.initialize(minefield);
+var GameView = function (args) {
+	args = args || {};
+	this.initialize(args);
 };
 
 /*
@@ -13,8 +14,8 @@ var GameView = function (minefield) {
  *
  * constructor method
  * */
-GameView.prototype.initialize = function (minefield) {
-	this.minefield = minefield;
+GameView.prototype.initialize = function (args) {
+	this.minefield = args.minefield;
 	this.set().bind().render();
 };
 
@@ -78,6 +79,7 @@ GameView.prototype.bind = function () {
 GameView.prototype.explore = function (event) {
 	var line = event.target.getAttribute('data-line'),
 			position = event.target.getAttribute('data-position');
+
 
 	console.log(line, position, this.minefield.game[line].line[position]);
 };

@@ -18,9 +18,13 @@
 			<td>
 				<a class="not-explored field-link"
 					href="javascript:void(0)"
-					data-line="<%= line  %>"
+					data-line="<%= line %>"
 					data-position="<%= position %>">
-					<br/> <%= bomb %> <br />
+					<% if (bomb) { %>
+						<img src="http://files.gamebanana.com/img/ico/sprays/bombspray.gif" width="16" height="16" />
+					<% } else { %>
+						<%= near %>
+					<% }%>
 				</a>
 			</td>
 		</script>
@@ -32,9 +36,9 @@
 		<script src="assets/javascripts/minefield.js"></script>
 		<script>
 			new MineField({
-				x: 10,
+				x: 40,
 				y: 10,
-				mines: 50
+				mines: 37
 			});
 		</script>
 	</body>
