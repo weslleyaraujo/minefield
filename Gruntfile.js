@@ -2,10 +2,22 @@ module.exports = function (grunt) {
 	'use strict';
 
 	var tasks = [
-		'grunt-contrib-jshint'
+		'grunt-contrib-jshint',
+		'grunt-contrib-compass',
+		'grunt-contrib-watch'
 	];
 
 	grunt.initConfig({
+		watch: {
+			css: {
+				files: [
+					'assets/sass/*.sass'
+				],
+				tasks: [
+					'compass:dev'
+				]
+			}
+		},
 		jshint: {
 			all: [
 				'Gruntfile.js',
@@ -13,6 +25,12 @@ module.exports = function (grunt) {
 				'assets/javascripts/game-view.js',
 				'assets/javascripts/minefield.js'
 			]
+		},
+		compass: {
+			dev: {
+				sassDir: 'assets/sass',
+				cssDir: 'assets/css'
+			}
 		}
 	});
 
