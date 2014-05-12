@@ -21,8 +21,8 @@
 					href="javascript:void(0)"
 					data-line="<%= line %>"
 					data-position="<%= position %>">
-					<% if (explored && !(bomb)) { %>
-						<% if (near > 0 ) { %> <%= near %> <% } %>
+					<% if (explored && !(bomb) && (near > 0 )) { %>
+						<%= near %>
 					<% } else if (bomb && explored) { %>
 						*
 					<% } %>
