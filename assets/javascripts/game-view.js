@@ -16,7 +16,7 @@ var GameView = function (args) {
  * */
 GameView.prototype.initialize = function (args) {
 	this.minefield = args.minefield;
-	this.set().bind().render();
+	this.set().render();
 };
 
 /*
@@ -49,6 +49,8 @@ GameView.prototype.render = function () {
 
 	}.bind(this));
 
+	this.bind();
+
 	return this;
 };
 
@@ -67,7 +69,7 @@ GameView.prototype.item = function (data) {
  * bind elements
  * */
 GameView.prototype.bind = function () {
-	this.$page.on('click', '.field-link', $.proxy(this.explore, this));
+	this.$page.find('.field-link').on('click', $.proxy(this.explore, this));
 	return this;
 };
 
@@ -80,7 +82,7 @@ GameView.prototype.explore = function (event) {
 	var line = event.target.getAttribute('data-line'),
 			position = event.target.getAttribute('data-position');
 
-	this.expand(line, position).render();
+	this.expand(line, position);
 };
 
 /*
@@ -89,16 +91,14 @@ GameView.prototype.explore = function (event) {
  * expand fields by position
  * */
 GameView.prototype.expand = function (line, position) {
-	var field = this.minefield.get(line, position);
-	field = this.minefield.set(field, 'explored', true);
+	var field = this.minefield.get(line, position),
+	closests = [];
+	closests.push(this.minefield.set(field, 'explored', true));
 
-	if (field.bomb) {
-		this.lose();
-	}
+	if (closests[0].bomb) this.lose().render();
 
-	console.log(this.minefield.game[line].line[position]);
-
-	return this;
+	closests = this.minefield.findExpand(closests);
+	this.render();
 };
 
 /*
@@ -109,4 +109,5 @@ GameView.prototype.expand = function (line, position) {
 GameView.prototype.lose = function () {
 	this.minefield.exploredAll();
 	alert('SE FODEO');
+	return this;
 };

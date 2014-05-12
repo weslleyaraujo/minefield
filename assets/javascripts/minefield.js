@@ -173,6 +173,19 @@ MineField.prototype.hasBomb = function (line, position, total) {
 };
 
 /*
+ * MineField.hasNear
+ *
+ * has near to the field
+ * */
+MineField.prototype.hasNear = function (line, position) {
+	if (this.game[line] && this.game[line].line[position]) {
+		return this.game[line].line[position];
+	}
+
+	return false;
+};
+
+/*
  * MineField.setNear
  *
  * set bombs near to the field
@@ -188,7 +201,7 @@ MineField.prototype.setNear = function () {
 	}.bind(this));
 
 	// Create final view
-	new GameView({
+	this.view = new GameView({
 		minefield: this
 	});
 };
@@ -210,6 +223,75 @@ MineField.prototype.get = function (line, position) {
 MineField.prototype.set = function (field, index, value) {
 	field[index] = value;
 	return field;
+};
+
+/*
+ * MineField.findExpand
+ *
+ * expand the explored fields
+ * */
+MineField.prototype.findExpand = function (emptyFields) {
+	emptyFields = emptyFields || [];
+
+	var field = emptyFields.shift(),
+	next = (field.position + 1),
+	prev = field.position - 1,
+
+	/*
+	 * create the lines to check
+	 * (upperline, lowerline, line)
+	 *
+	 * */
+	lines = [
+		(field.line - 1),
+		(field.line + 1),
+		field.line
+	];
+
+	field = this.set(field, 'visited', true);
+
+
+	if (field.near === 0) {
+		lines.forEach(function (value) {
+			emptyFields = this.exploreEmpty(this.hasNear(value, prev), emptyFields);
+			emptyFields = this.exploreEmpty(this.hasNear(value, next), emptyFields);
+			emptyFields = this.exploreEmpty(this.hasNear(value, field.position), emptyFields);
+		}.bind(this));
+	}
+
+	emptyFields.splice(emptyFields.indexOf(field), 1);
+
+	if (emptyFields.length > 0) {
+		emptyFields.forEach(function (value) {
+			if (!value.visited) {
+				this.findExpand([value]);
+			}
+		}.bind(this));
+	}
+	else {
+		this.view.render();
+	}
+
+	return true;
+};
+
+/*
+ * MineField.exploreEmpty
+ *
+ * 
+ * */
+MineField.prototype.exploreEmpty = function (actual, fields) {
+	fields = fields || [];
+	actual = actual || {};
+	if (actual.near === 0 && !actual.bomb) {
+		actual = this.set(actual, 'explored', true);
+		fields.push(actual);
+	}
+	else if (actual.near > 0) {
+		actual = this.set(actual, 'explored', true);
+	}
+
+	return fields;
 };
 
 /*
