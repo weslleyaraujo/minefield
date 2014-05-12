@@ -28,8 +28,10 @@ module.exports = function (grunt) {
 		},
 		compass: {
 			dev: {
-				sassDir: 'assets/sass',
-				cssDir: 'assets/css'
+				options: {
+					sassDir: 'assets/sass',
+					cssDir: 'assets/css'
+				}
 			}
 		}
 	});
