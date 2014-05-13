@@ -17,6 +17,7 @@ var GameView = function (args) {
 GameView.prototype.initialize = function (args) {
 	this.minefield = args.minefield;
 	this.set().render();
+	this.hideMessage();
 };
 
 /*
@@ -26,6 +27,7 @@ GameView.prototype.initialize = function (args) {
  * */
 GameView.prototype.set = function () {
 	this.$main = $('#game');
+	this.$message = $('.message');
 	this.$page = $(document);
 	this.template = window.Helpers.template('#field-template');
 	return this;
@@ -123,7 +125,7 @@ GameView.prototype.lose = function (field) {
 	this.minefield.game.done = true;
 	this.minefield.exploredAll();
 	field = this.minefield.set(field, 'death', true);
-	alert('se fodeo otario');
+	this.showMessage('You lost! try again :D', 'error');
 	return this;
 };
 
@@ -149,6 +151,24 @@ GameView.prototype.suspect = function (event) {
 GameView.prototype.isWinner = function () {
 	if (this.minefield.subtract() === 0) {
 		this.minefield.game.done = true;
-		alert('campeão');
+		this.showMessage('You won! Congrats!', 'success');
 	}
+};
+
+/*
+ * GameView.showMessage
+ *
+ * show message
+ * */
+GameView.prototype.showMessage = function (message, state) {
+	this.$message.html(message).addClass('is-active is-' + state);
+};
+
+/*
+ * GameView.hideMessage
+ *
+ * hide message
+ * */
+GameView.prototype.hideMessage = function (message, state) {
+	this.$message.removeClass('is-active is-error is-succes');
 };

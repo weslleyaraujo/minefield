@@ -42,7 +42,18 @@ module.exports = function (grunt) {
 				options: {
 					sassDir: 'assets/sass',
 					cssDir: 'assets/css',
-					imagesDir: 'assets/images'
+					imagesDir: 'assets/images',
+					environment: 'development'
+				}
+			},
+			prod: {
+				options: {
+					sassDir: 'assets/sass',
+					cssDir: 'assets/css',
+					imagesDir: 'assets/images',
+					outputStyle: 'compressed',
+					noLineComments: true,
+					environment: 'production'
 				}
 			}
 		}
