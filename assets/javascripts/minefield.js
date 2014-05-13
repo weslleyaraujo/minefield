@@ -79,7 +79,8 @@ MineField.prototype.createLine = function (index) {
 			bomb: false,
 			near: 0,
 			line: index,
-			suspect: false
+			suspect: false,
+			death: false
 		};
 
 		return field;

@@ -105,7 +105,7 @@ GameView.prototype.expand = function (line, position) {
 
 	// is bomb?
 	if (closests[0].bomb) {
-		this.lose().render();
+		this.lose(closests[0]).render();
 	}
 
 	this.minefield.findExpand(closests);
@@ -117,9 +117,10 @@ GameView.prototype.expand = function (line, position) {
  *
  * execute after lose game
  * */
-GameView.prototype.lose = function () {
+GameView.prototype.lose = function (field) {
 	this.minefield.exploredAll();
-	alert('SE FODEO');
+	field = this.minefield.set(field, 'death', true);
+	alert('se fodeo otario');
 	return this;
 };
 

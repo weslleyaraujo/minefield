@@ -24,7 +24,7 @@
 
 		<script type="text/template" id="field-template">
 			<td class="field">
-				<a class="field-link <% if (explored) { %> is-explored near-<%= near %> <% } %> <% if (suspect) { %> is-suspected <% } %>"
+				<a class="field-link <% if (explored) { %> is-explored near-<%= near %> <% } %> <% if (suspect) { %> is-suspected <% } %> <% if (death) { %> is-dead <% } %>"
 					href="javascript:void(0)"
 					data-line="<%= line %>"
 					data-position="<%= position %>">
