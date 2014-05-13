@@ -19,6 +19,7 @@ MineField.prototype.initialize = function (args) {
 	this.Y = args.y || 5;
 	this.total = (this.Y * this.X);
 	this.mines = args.mines || 80;
+	this.clear = (this.total - this.mines)
 
 	if (this.validate()) this.create();
 };
@@ -62,6 +63,9 @@ MineField.prototype.create = function (args) {
 		return line;
 
 	}.bind(this));
+
+	this.game.started = false;
+	this.game.done = false;
 
 	this.setBombs();
 };
@@ -299,5 +303,28 @@ MineField.prototype.exploredAll = function () {
  * */
 MineField.prototype.toggleSuspect = function (line, position) {
 	var field = this.hasField(line, position);
-	field = this.set(field, 'suspect', !(field.suspect));
+	if (!field.explored) {
+		field = this.set(field, 'suspect', !(field.suspect));
+	}
+};
+
+/*
+ * MineField.suctract
+ *
+ * subtract from clear
+ * */
+MineField.prototype.subtract = function () {
+	var exploreds = this.game.reduce(function (total, value) {
+		total = value.line.reduce(function (cache, line) {
+			if (line.explored) {
+				cache = cache+1;
+			}
+			return cache;
+		}, total);
+
+		return total;
+
+	}, 0);
+
+	return this.clear - exploreds;
 };

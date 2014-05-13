@@ -16,17 +16,21 @@
 		<h1>Minefield</h1>
 		<p>A simple minesweeper created with javascript!</p>
 
-		<div class="upper-game">
-			<div class="counter pull-left">
-				00:00
-			</div>
-
-			<div class="counter pull-right">
-				00:00
-			</div>
+		<div class="dificulty">
+			<label for="dificulty">Dificulty</label>
+			<select name="dificulty" id="dificulty">
+				<option value="beginner">Beginner</option>
+				<option value="intermediate" selected="selected">Intermediate</option>
+				<option value="expert">Expert</option>
+			</select>
 		</div>
+
 		<table id="game" class="the-mines">
 		</table>
+
+		<div class="dificulty">
+			<button name="restart">Restart</button>
+		</div>
 
 		<a href="#" class="fork-me">
 			<img src="assets/images/forkme.png" />
@@ -50,12 +54,71 @@
 		<script src="assets/javascripts/functionals.js"></script>
 		<script src="assets/javascripts/game-view.js"></script>
 		<script src="assets/javascripts/minefield.js"></script>
-		<script>
-			new MineField({
-				x: 20,
-				y: 10,
-				mines: 17
-			});
+		<script type="text/javascript">
+			var Interactions = (function () {
+				var app,
+				_private,
+				config = {
+					beginner: {
+						x: 8,
+						y: 8,
+						mines: 10
+					},
+					intermediate: {
+						x: 16,
+						y: 16,
+						mines: 30
+					},
+					expert: {
+						x: 32,
+						y: 16,
+						mines: 100
+					}
+				};
+
+				_private = {
+					initGame: function () {
+						if (confirm('Do you really want to start a new game?')) {
+							_private.start(_private.getDificulty());
+						}
+					},
+
+					getDificulty: function () {
+						return app.elements.$main.val();
+					},
+
+					start: function (dificulty) {
+						new MineField({
+							x: config[dificulty].x,
+							y: config[dificulty].y,
+							mines: config[dificulty].mines
+						});
+					}
+				};
+
+				app = {
+					init: function () {
+						app.set();
+						app.bind();
+						_private.start(_private.getDificulty());
+					},
+
+					set: function () {
+						app.elements = {};
+						app.elements.$main = $('#dificulty');
+						app.elements.$restart = $('button[name="restart"]');
+					},
+
+					bind: function () {
+						app.elements.$main.on('change', _private.initGame);
+						app.elements.$restart.on('click', _private.initGame);
+					}
+				};
+
+				return app;
+
+			}().init())
+
 		</script>
 	</body>
 </html>

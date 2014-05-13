@@ -1,5 +1,11 @@
 /* Smacss guide style
  */
+/* line 8, ../../sass/modules/dificulty.sass */
+.dificulty {
+  margin: 25px 0;
+}
+/* Smacss guide style
+ */
 /* line 15, ../../sass/modules/field.sass */
 .field {
   border: 1px solid #aeaeae;
@@ -30,8 +36,21 @@
 .field-link.is-suspected {
   background-image: url('/assets/images/flag.png?1399987324');
 }
-/* line 38, ../../sass/modules/field.sass */
+/* line 37, ../../sass/modules/field.sass */
+.field-link.is-dead {
+  background-color: red;
+}
+/* line 39, ../../sass/modules/field.sass */
 .field-link.is-dead:after {
+  display: none;
+}
+/* line 42, ../../sass/modules/field.sass */
+.field-link.is-bomb {
+  background-position: 0 2px;
+  background-image: url('/assets/images/bomb.png?1399987324');
+}
+/* line 47, ../../sass/modules/field.sass */
+.field-link.is-bomb.is-explored:after {
   content: "";
   position: absolute;
   width: 100%;
@@ -41,11 +60,6 @@
   background-repeat: no-repeat;
   background-position: 1px 1px;
   background-image: url('/assets/images/dead.png?1399987324');
-}
-/* line 49, ../../sass/modules/field.sass */
-.field-link.is-bomb {
-  background-position: 0 2px;
-  background-image: url('/assets/images/bomb.png?1399987324');
 }
 /* Smacss guide style
  */

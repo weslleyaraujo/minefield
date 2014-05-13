@@ -35,6 +35,15 @@ $module-box-shadow: inset 1px 1px 1px #E6E6E6, inset -1px -1px 1px #B4B4B4
     background-image: image-url('flag.png')
 
   &.is-dead
+    background-color: red
+    &:after
+      display: none
+
+  &.is-bomb
+    background-position: 0 2px
+    background-image: image-url('bomb.png')
+
+  &.is-bomb.is-explored
     &:after
       content: ''
       position: absolute
@@ -45,7 +54,3 @@ $module-box-shadow: inset 1px 1px 1px #E6E6E6, inset -1px -1px 1px #B4B4B4
       background-repeat: no-repeat
       background-position: 1px 1px
       background-image: image-url('dead.png')
-
-  &.is-bomb
-    background-position: 0 2px
-    background-image: image-url('bomb.png')

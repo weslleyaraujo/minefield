@@ -83,6 +83,7 @@ GameView.prototype.explore = function (event) {
 	var line = event.target.getAttribute('data-line'),
 			position = event.target.getAttribute('data-position');
 
+	this.minefield.game.started = true;
 	this.expand(line, position);
 };
 
@@ -95,8 +96,8 @@ GameView.prototype.expand = function (line, position) {
 	var field = this.minefield.hasField(line, position),
 	closests = [];
 
-	// is suspect?
-	if (field.suspect) {
+	// is suspect or done?
+	if (field.suspect || this.minefield.game.done) {
 		return;
 	}
 
@@ -110,6 +111,7 @@ GameView.prototype.expand = function (line, position) {
 
 	this.minefield.findExpand(closests);
 	this.render();
+	this.isWinner();
 };
 
 /*
@@ -118,6 +120,7 @@ GameView.prototype.expand = function (line, position) {
  * execute after lose game
  * */
 GameView.prototype.lose = function (field) {
+	this.minefield.game.done = true;
 	this.minefield.exploredAll();
 	field = this.minefield.set(field, 'death', true);
 	alert('se fodeo otario');
@@ -136,4 +139,16 @@ GameView.prototype.suspect = function (event) {
 
 	this.minefield.toggleSuspect(line, position);
 	this.render();
+};
+
+/*
+ * GameView.isWinner
+ *
+ * is user winner
+ * */
+GameView.prototype.isWinner = function () {
+	if (this.minefield.subtract() === 0) {
+		this.minefield.game.done = true;
+		alert('campeão');
+	}
 };
