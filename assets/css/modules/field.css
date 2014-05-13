@@ -25,3 +25,7 @@
   -moz-box-shadow: none;
   box-shadow: none;
 }
+/* line 33, ../../sass/modules/field.sass */
+.field-link.is-suspected {
+  background-image: url('/assets/images/flag.png?1399946647');
+}

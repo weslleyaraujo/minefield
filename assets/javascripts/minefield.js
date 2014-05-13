@@ -78,7 +78,8 @@ MineField.prototype.createLine = function (index) {
 			explored: false,
 			bomb: false,
 			near: 0,
-			line: index
+			line: index,
+			suspect: false
 		};
 
 		return field;
@@ -173,11 +174,11 @@ MineField.prototype.hasBomb = function (line, position, total) {
 };
 
 /*
- * MineField.hasNear
+ * MineField.hasField
  *
- * has near to the field
+ * has field
  * */
-MineField.prototype.hasNear = function (line, position) {
+MineField.prototype.hasField = function (line, position) {
 	if (this.game[line] && this.game[line].line[position]) {
 		return this.game[line].line[position];
 	}
@@ -207,15 +208,6 @@ MineField.prototype.setNear = function () {
 };
 
 /*
- * MineField.get
- *
- * get the field by reference
- * */
-MineField.prototype.get = function (line, position) {
-	return this.game[line].line[position];
-};
-
-/*
  * MineField.set
  *
  * set field value
@@ -231,17 +223,9 @@ MineField.prototype.set = function (field, index, value) {
  * expand the explored fields
  * */
 MineField.prototype.findExpand = function (emptyFields) {
-	emptyFields = emptyFields || [];
-
 	var field = emptyFields.shift(),
 	next = (field.position + 1),
 	prev = field.position - 1,
-
-	/*
-	 * create the lines to check
-	 * (upperline, lowerline, line)
-	 *
-	 * */
 	lines = [
 		(field.line - 1),
 		(field.line + 1),
@@ -250,12 +234,11 @@ MineField.prototype.findExpand = function (emptyFields) {
 
 	field = this.set(field, 'visited', true);
 
-
-	if (field.near === 0) {
+	if (!field.near) {
 		lines.forEach(function (value) {
-			emptyFields = this.exploreEmpty(this.hasNear(value, prev), emptyFields);
-			emptyFields = this.exploreEmpty(this.hasNear(value, next), emptyFields);
-			emptyFields = this.exploreEmpty(this.hasNear(value, field.position), emptyFields);
+			emptyFields = this.exploreEmpty(this.hasField(value, prev), emptyFields);
+			emptyFields = this.exploreEmpty(this.hasField(value, next), emptyFields);
+			emptyFields = this.exploreEmpty(this.hasField(value, field.position), emptyFields);
 		}.bind(this));
 	}
 
@@ -271,8 +254,6 @@ MineField.prototype.findExpand = function (emptyFields) {
 	else {
 		this.view.render();
 	}
-
-	return true;
 };
 
 /*
@@ -285,10 +266,12 @@ MineField.prototype.exploreEmpty = function (actual, fields) {
 	actual = actual || {};
 	if (actual.near === 0 && !actual.bomb) {
 		actual = this.set(actual, 'explored', true);
+		actual = this.set(actual, 'suspect', false);
 		fields.push(actual);
 	}
 	else if (actual.near > 0) {
 		actual = this.set(actual, 'explored', true);
+		actual = this.set(actual, 'suspect', false);
 	}
 
 	return fields;
@@ -303,6 +286,17 @@ MineField.prototype.exploredAll = function () {
 	this.game.forEach(function (value) {
 		value.line.forEach(function (field) {
 			this.set(field, 'explored', true);
+			this.set(field, 'suspect', false);
 		}.bind(this));
 	}.bind(this));
+};
+
+/*
+ * MineField.toggleSuspect
+ *
+ * toggle suspect field
+ * */
+MineField.prototype.toggleSuspect = function (line, position) {
+	var field = this.hasField(line, position);
+	field = this.set(field, 'suspect', !(field.suspect));
 };

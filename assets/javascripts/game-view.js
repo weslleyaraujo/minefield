@@ -70,6 +70,7 @@ GameView.prototype.item = function (data) {
  * */
 GameView.prototype.bind = function () {
 	this.$page.find('.field-link').on('click', $.proxy(this.explore, this));
+	this.$page.find('.field-link').on('contextmenu', $.proxy(this.suspect, this));
 	return this;
 };
 
@@ -91,13 +92,23 @@ GameView.prototype.explore = function (event) {
  * expand fields by position
  * */
 GameView.prototype.expand = function (line, position) {
-	var field = this.minefield.get(line, position),
+	var field = this.minefield.hasField(line, position),
 	closests = [];
+
+	// is suspect?
+	if (field.suspect) {
+		return;
+	}
+
+	// set explored
 	closests.push(this.minefield.set(field, 'explored', true));
 
-	if (closests[0].bomb) this.lose().render();
+	// is bomb?
+	if (closests[0].bomb) {
+		this.lose().render();
+	}
 
-	closests = this.minefield.findExpand(closests);
+	this.minefield.findExpand(closests);
 	this.render();
 };
 
@@ -110,4 +121,18 @@ GameView.prototype.lose = function () {
 	this.minefield.exploredAll();
 	alert('SE FODEO');
 	return this;
+};
+
+/*
+ * GameView.suspect
+ *
+ * toggle suspect on click
+ * */
+GameView.prototype.suspect = function (event) {
+	event.preventDefault();
+	var line = event.target.getAttribute('data-line'),
+			position = event.target.getAttribute('data-position');
+
+	this.minefield.toggleSuspect(line, position);
+	this.render();
 };
