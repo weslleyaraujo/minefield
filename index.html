@@ -15,6 +15,16 @@
 
 		<h1>Minefield</h1>
 		<p>A simple minesweeper created with javascript!</p>
+
+		<div class="upper-game">
+			<div class="counter pull-left">
+				00:00
+			</div>
+
+			<div class="counter pull-right">
+				00:00
+			</div>
+		</div>
 		<table id="game" class="the-mines">
 		</table>
 
@@ -24,14 +34,12 @@
 
 		<script type="text/template" id="field-template">
 			<td class="field">
-				<a class="field-link <% if (explored) { %> is-explored near-<%= near %> <% } %> <% if (suspect) { %> is-suspected <% } %> <% if (death) { %> is-dead <% } %>"
+				<a class="field-link <% if (explored) { %> is-explored near-<%= near %> <% } %> <% if (suspect) { %> is-suspected <% } %> <% if (death) { %> is-dead <% } %> <% if (bomb && explored) { %> is-bomb <% } %>"
 					href="javascript:void(0)"
 					data-line="<%= line %>"
 					data-position="<%= position %>">
 					<% if (explored && !(bomb) && (near > 0 )) { %>
 						<%= near %>
-					<% } else if (bomb && explored) { %>
-						<img src="assets/images/bomb.png" width="18" height="18" />
 					<% } %>
 				</a>
 			</td>
