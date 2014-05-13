@@ -1,0 +1,8 @@
+/* Smacss guide style
+ */
+/* line 8, ../../sass/modules/fork-me.sass */
+.fork-me {
+  position: absolute;
+  right: 0;
+  top: 0;
+}

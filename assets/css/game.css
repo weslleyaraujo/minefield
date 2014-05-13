@@ -31,6 +31,14 @@
 }
 /* Smacss guide style
  */
+/* line 8, ../../sass/modules/fork-me.sass */
+.fork-me {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+/* Smacss guide style
+ */
 /* line 11, ../../sass/modules/near.sass */
 .near-1 {
   color: blue;
