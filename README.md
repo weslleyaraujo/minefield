@@ -28,4 +28,4 @@ MIT
 
 **Free Software, Hell Yeah!**
 
-[play]:http://google.com
+[play]:http://weslleyaraujo.github.io/minefield/
