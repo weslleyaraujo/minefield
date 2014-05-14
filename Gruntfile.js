@@ -51,9 +51,7 @@ module.exports = function (grunt) {
 					sassDir: 'assets/sass',
 					cssDir: 'assets/css',
 					imagesDir: 'assets/images',
-					outputStyle: 'compressed',
-					noLineComments: true,
-					environment: 'production'
+					outputStyle: 'compressed'
 				}
 			}
 		}
