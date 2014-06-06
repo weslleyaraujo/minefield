@@ -4,17 +4,44 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>MineField do bigode</title>
-		<meta name="description" content="">
+		<meta name="description" content="Play the minesweeper game!">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<meta property="og:url" content="http://weslleyaraujo.github.io/minefield/">
+		<meta property="og:description" content="Play the minesweeper game!">
+		<meta property="og:site_name" content="Minefield JS!">
+		<meta property="og:image" content="http://weslleyaraujo.github.io/minefield/assets/images/ms.jpg">
+
 		<link href='http://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="assets/css/normalize.css">
 		<link rel="stylesheet" href="assets/css/main.css">
 		<link rel="stylesheet" href="assets/css/game.css">
 	</head>
 	<body>
+		<div id="fb-root"></div>
+		<script>
+			(function(d, s, id) {
+			  var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) return;
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=425790020851650&version=v2.0";
+			fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
+
+		<iframe src="http://ghbtns.com/github-btn.html?user=weslleyaraujo&repo=minefield&type=watch&count=true&size=small"
+			allowtransparency="true" frameborder="0" scrolling="0" width="80" height="30" class="top-social star">
+		</iframe>
+
+		<div class="fb-like top-social like" data-href="http://weslleyaraujo.github.io/minefield/" data-width="100" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+
+
+		<a href="https://twitter.com/share" class="twitter-share-button top-social tweet" data-url="http://weslleyaraujo.github.io/minefield">Tweet</a>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
 		<h1>Minefield</h1>
 		<p>A simple minesweeper created with javascript!</p>
+
 
 		<div class="dificulty">
 			<label for="dificulty">Dificulty</label>
