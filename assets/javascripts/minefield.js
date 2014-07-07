@@ -5,7 +5,7 @@
  * */
 
 var MineField = function (args) {
-	this.initialize(args);
+  this.initialize(args);
 };
 
 /*
@@ -14,14 +14,14 @@ var MineField = function (args) {
  * constructor method
  * */
 MineField.prototype.initialize = function (args) {
-	args = args || {};
-	this.X = args.x || 10;
-	this.Y = args.y || 5;
-	this.total = (this.Y * this.X);
-	this.mines = args.mines || 80;
-	this.clear = (this.total - this.mines)
+  args = args || {};
+  this.X = args.x || 10;
+  this.Y = args.y || 5;
+  this.total = (this.Y * this.X);
+  this.mines = args.mines || 80;
+  this.clear = (this.total - this.mines)
 
-	if (this.validate()) this.create();
+    if (this.validate()) this.create();
 };
 
 /*
@@ -30,12 +30,12 @@ MineField.prototype.initialize = function (args) {
  * validate args values
  * */
 MineField.prototype.validate = function (args) {
-	if (this.mines >= this.total) {
-		this.error('The number of mines cant be greater or equal of the total number of fields');
-		return false;
-	}
+  if (this.mines >= this.total) {
+    this.error('The number of mines cant be greater or equal of the total number of fields');
+    return false;
+  }
 
-	return true;
+  return true;
 };
 
 /*
@@ -44,7 +44,7 @@ MineField.prototype.validate = function (args) {
  * throw errors
  * */
 MineField.prototype.error = function (message) {
-	throw new Error(message || 'Some unknow error happend :(');
+  throw new Error(message || 'Some unknow error happend :(');
 };
 
 /*
@@ -53,21 +53,21 @@ MineField.prototype.error = function (message) {
  * creates the "field" with empty blocks
  * */
 MineField.prototype.create = function (args) {
-	this.game = Array.apply(null, { length: this.Y } ).map(function () {
-		var line = arguments[1];
-		line = {
-			line: this.createLine(arguments[1]),
-			bombs: 0
-		};
+  this.game = Array.apply(null, { length: this.Y } ).map(function () {
+    var line = arguments[1];
+    line = {
+      line: this.createLine(arguments[1]),
+    bombs: 0
+    };
 
-		return line;
+    return line;
 
-	}.bind(this));
+  }.bind(this));
 
-	this.game.started = false;
-	this.game.done = false;
+  this.game.started = false;
+  this.game.done = false;
 
-	this.setBombs();
+  this.setBombs();
 };
 
 /*
@@ -76,20 +76,20 @@ MineField.prototype.create = function (args) {
  * creates the  line
  * */
 MineField.prototype.createLine = function (index) {
-	return Array.apply(null, { length: this.X } ).map(function () {
-		var field =  arguments[1];
-		field = {
-			explored: false,
-			bomb: false,
-			near: 0,
-			line: index,
-			suspect: false,
-			death: false
-		};
+  return Array.apply(null, { length: this.X } ).map(function () {
+    var field =  arguments[1];
+    field = {
+      explored: false,
+         bomb: false,
+         near: 0,
+         line: index,
+         suspect: false,
+         death: false
+    };
 
-		return field;
+    return field;
 
-	}.bind(this));
+  }.bind(this));
 
 };
 
@@ -100,32 +100,32 @@ MineField.prototype.createLine = function (index) {
  * set bombs by line
  * */
 MineField.prototype.setBombs = function () {
-	var input = this.mines,
-			index;
+  var input = this.mines,
+      index;
 
-	while (input > 0) {
-		index = Math.range(this.game.length, 0);
+  while (input > 0) {
+    index = Math.range(this.game.length, 0);
 
-		if (this.game[index].bombs < this.Y) {
-			this.game[index].bombs++;
-			input = input -1;
-			this.game[index].line[this.game[index].bombs - 1].bomb = true;
-		}
-	}
+    if (this.game[index].bombs < this.Y) {
+      this.game[index].bombs++;
+      input = input -1;
+      this.game[index].line[this.game[index].bombs - 1].bomb = true;
+    }
+  }
 
-	this.game.forEach(function (value, index) {
-		this.game[index].line.shuffle();
+  this.game.forEach(function (value, index) {
+    this.game[index].line.shuffle();
 
-		// set 'real' position
-		this.game[index].line.map(function (field, position) {
-			field.position = position;
-			return field;
-		});
+    // set 'real' position
+    this.game[index].line.map(function (field, position) {
+      field.position = position;
+      return field;
+    });
 
-	}.bind(this));
+  }.bind(this));
 
-	// set how many bombs are near to the fields
-	this.setNear();
+  // set how many bombs are near to the fields
+  this.setNear();
 };
 
 /*
@@ -134,34 +134,34 @@ MineField.prototype.setBombs = function () {
  * count bombs next to the field
  * */
 MineField.prototype.count = function (field) {
-	var next = (field.position + 1),
-	prev = field.position - 1,
-	bombs = 0,
+  var next = (field.position + 1),
+      prev = field.position - 1,
+      bombs = 0,
 
-	/*
-	 * create the lines to check
-	 * (upperline, lowerline, line)
-	 *
-	 * */
-	lines = [
-		(field.line - 1),
-		(field.line + 1),
-		field.line
-	];
+      /*
+       * create the lines to check
+       * (upperline, lowerline, line)
+       *
+       * */
+      lines = [
+        (field.line - 1),
+      (field.line + 1),
+      field.line
+        ];
 
-	if (!field.bomb) {
-		bombs = lines.reduce(function (total, value) {
-			total = this.hasBomb(value, prev, total);
-			total = this.hasBomb(value, next, total);
-			total = this.hasBomb(value, field.position, total);
+  if (!field.bomb) {
+    bombs = lines.reduce(function (total, value) {
+      total = this.hasBomb(value, prev, total);
+      total = this.hasBomb(value, next, total);
+      total = this.hasBomb(value, field.position, total);
 
-			return total;
+      return total;
 
-		}.bind(this), bombs);
-	}
+    }.bind(this), bombs);
+  }
 
-	field.near = bombs;
-	return field;
+  field.near = bombs;
+  return field;
 };
 
 /*
@@ -170,12 +170,12 @@ MineField.prototype.count = function (field) {
  * has bombs near to the field
  * */
 MineField.prototype.hasBomb = function (line, position, total) {
-	if (this.game[line] && this.game[line].line[position] && this.game[line].line[position].bomb) {
-		total++;
-		return total;
-	}
+  if (this.game[line] && this.game[line].line[position] && this.game[line].line[position].bomb) {
+    total++;
+    return total;
+  }
 
-	return total;
+  return total;
 };
 
 /*
@@ -184,11 +184,11 @@ MineField.prototype.hasBomb = function (line, position, total) {
  * has field
  * */
 MineField.prototype.hasField = function (line, position) {
-	if (this.game[line] && this.game[line].line[position]) {
-		return this.game[line].line[position];
-	}
+  if (this.game[line] && this.game[line].line[position]) {
+    return this.game[line].line[position];
+  }
 
-	return false;
+  return false;
 };
 
 /*
@@ -198,18 +198,18 @@ MineField.prototype.hasField = function (line, position) {
  * */
 MineField.prototype.setNear = function () {
 
-	this.game.forEach(function (value, index) {
+  this.game.forEach(function (value, index) {
 
-		this.game[index].line.map(function (field, position) {
-			return this.count(field);
-		}.bind(this));
+    this.game[index].line.map(function (field, position) {
+      return this.count(field);
+    }.bind(this));
 
-	}.bind(this));
+  }.bind(this));
 
-	// Create final view
-	this.view = new GameView({
-		minefield: this
-	});
+  // Create final view
+  this.view = new GameView({
+    minefield: this
+  });
 };
 
 /*
@@ -218,8 +218,8 @@ MineField.prototype.setNear = function () {
  * set field value
  * */
 MineField.prototype.set = function (field, index, value) {
-	field[index] = value;
-	return field;
+  field[index] = value;
+  return field;
 };
 
 /*
@@ -228,37 +228,37 @@ MineField.prototype.set = function (field, index, value) {
  * expand the explored fields
  * */
 MineField.prototype.findExpand = function (emptyFields) {
-	var field = emptyFields.shift(),
-	next = (field.position + 1),
-	prev = field.position - 1,
-	lines = [
-		(field.line - 1),
-		(field.line + 1),
-		field.line
-	];
+  var field = emptyFields.shift(),
+      next = (field.position + 1),
+      prev = field.position - 1,
+      lines = [
+        (field.line - 1),
+      (field.line + 1),
+      field.line
+        ];
 
-	field = this.set(field, 'visited', true);
+  field = this.set(field, 'visited', true);
 
-	if (!field.near) {
-		lines.forEach(function (value) {
-			emptyFields = this.exploreEmpty(this.hasField(value, prev), emptyFields);
-			emptyFields = this.exploreEmpty(this.hasField(value, next), emptyFields);
-			emptyFields = this.exploreEmpty(this.hasField(value, field.position), emptyFields);
-		}.bind(this));
-	}
+  if (!field.near) {
+    lines.forEach(function (value) {
+      emptyFields = this.exploreEmpty(this.hasField(value, prev), emptyFields);
+      emptyFields = this.exploreEmpty(this.hasField(value, next), emptyFields);
+      emptyFields = this.exploreEmpty(this.hasField(value, field.position), emptyFields);
+    }.bind(this));
+  }
 
-	emptyFields.splice(emptyFields.indexOf(field), 1);
+  emptyFields.splice(emptyFields.indexOf(field), 1);
 
-	if (emptyFields.length > 0) {
-		emptyFields.forEach(function (value) {
-			if (!value.visited) {
-				this.findExpand([value]);
-			}
-		}.bind(this));
-	}
-	else {
-		this.view.render();
-	}
+  if (emptyFields.length > 0) {
+    emptyFields.forEach(function (value) {
+      if (!value.visited) {
+        this.findExpand([value]);
+      }
+    }.bind(this));
+  }
+  else {
+    this.view.render();
+  }
 };
 
 /*
@@ -267,19 +267,19 @@ MineField.prototype.findExpand = function (emptyFields) {
  * 
  * */
 MineField.prototype.exploreEmpty = function (actual, fields) {
-	fields = fields || [];
-	actual = actual || {};
-	if (actual.near === 0 && !actual.bomb) {
-		actual = this.set(actual, 'explored', true);
-		actual = this.set(actual, 'suspect', false);
-		fields.push(actual);
-	}
-	else if (actual.near > 0) {
-		actual = this.set(actual, 'explored', true);
-		actual = this.set(actual, 'suspect', false);
-	}
+  fields = fields || [];
+  actual = actual || {};
+  if (actual.near === 0 && !actual.bomb) {
+    actual = this.set(actual, 'explored', true);
+    actual = this.set(actual, 'suspect', false);
+    fields.push(actual);
+  }
+  else if (actual.near > 0) {
+    actual = this.set(actual, 'explored', true);
+    actual = this.set(actual, 'suspect', false);
+  }
 
-	return fields;
+  return fields;
 };
 
 /*
@@ -288,12 +288,12 @@ MineField.prototype.exploreEmpty = function (actual, fields) {
  * set all fields to explored
  * */
 MineField.prototype.exploredAll = function () {
-	this.game.forEach(function (value) {
-		value.line.forEach(function (field) {
-			this.set(field, 'explored', true);
-			this.set(field, 'suspect', false);
-		}.bind(this));
-	}.bind(this));
+  this.game.forEach(function (value) {
+    value.line.forEach(function (field) {
+      this.set(field, 'explored', true);
+      this.set(field, 'suspect', false);
+    }.bind(this));
+  }.bind(this));
 };
 
 /*
@@ -302,10 +302,10 @@ MineField.prototype.exploredAll = function () {
  * toggle suspect field
  * */
 MineField.prototype.toggleSuspect = function (line, position) {
-	var field = this.hasField(line, position);
-	if (!field.explored) {
-		field = this.set(field, 'suspect', !(field.suspect));
-	}
+  var field = this.hasField(line, position);
+  if (!field.explored) {
+    field = this.set(field, 'suspect', !(field.suspect));
+  }
 };
 
 /*
@@ -314,17 +314,17 @@ MineField.prototype.toggleSuspect = function (line, position) {
  * subtract from clear
  * */
 MineField.prototype.subtract = function () {
-	var exploreds = this.game.reduce(function (total, value) {
-		total = value.line.reduce(function (cache, line) {
-			if (line.explored) {
-				cache = cache+1;
-			}
-			return cache;
-		}, total);
+  var exploreds = this.game.reduce(function (total, value) {
+    total = value.line.reduce(function (cache, line) {
+      if (line.explored) {
+        cache = cache+1;
+      }
+      return cache;
+    }, total);
 
-		return total;
+    return total;
 
-	}, 0);
+  }, 0);
 
-	return this.clear - exploreds;
+  return this.clear - exploreds;
 };

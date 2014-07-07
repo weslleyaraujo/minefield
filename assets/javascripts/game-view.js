@@ -5,8 +5,8 @@
  * */
 
 var GameView = function (args) {
-	args = args || {};
-	this.initialize(args);
+  args = args || {};
+  this.initialize(args);
 };
 
 /*
@@ -15,9 +15,9 @@ var GameView = function (args) {
  * constructor method
  * */
 GameView.prototype.initialize = function (args) {
-	this.minefield = args.minefield;
-	this.set().render();
-	this.hideMessage();
+  this.minefield = args.minefield;
+  this.set().render();
+  this.hideMessage();
 };
 
 /*
@@ -26,11 +26,11 @@ GameView.prototype.initialize = function (args) {
  * set main values
  * */
 GameView.prototype.set = function () {
-	this.$main = $('#game');
-	this.$message = $('.message');
-	this.$page = $(document);
-	this.template = window.Helpers.template('#field-template');
-	return this;
+  this.$main = $('#game');
+  this.$message = $('.message');
+  this.$page = $(document);
+  this.template = window.Helpers.template('#field-template');
+  return this;
 };
 
 /*
@@ -39,21 +39,21 @@ GameView.prototype.set = function () {
  * render the elements inside table
  * */
 GameView.prototype.render = function () {
-	this.$main.html('');
-	var line;
+  this.$main.html('');
+  var line;
 
-	this.minefield.game.forEach(function (value, index) {
-		line = value.line.map(function(field) {
-			return this.template(field);
-		}.bind(this)).join('');
-		
-		this.$main.append($('<tr>').html(line));
+  this.minefield.game.forEach(function (value, index) {
+    line = value.line.map(function(field) {
+      return this.template(field);
+    }.bind(this)).join('');
 
-	}.bind(this));
+    this.$main.append($('<tr>').html(line));
 
-	this.bind();
+  }.bind(this));
 
-	return this;
+  this.bind();
+
+  return this;
 };
 
 /*
@@ -62,7 +62,7 @@ GameView.prototype.render = function () {
  * returns an element
  * */
 GameView.prototype.item = function (data) {
-	return this.template(data);
+  return this.template(data);
 };
 
 /*
@@ -71,9 +71,9 @@ GameView.prototype.item = function (data) {
  * bind elements
  * */
 GameView.prototype.bind = function () {
-	this.$page.find('.field-link').on('click', $.proxy(this.explore, this));
-	this.$page.find('.field-link').on('contextmenu', $.proxy(this.suspect, this));
-	return this;
+  this.$page.find('.field-link').on('click', $.proxy(this.explore, this));
+  this.$page.find('.field-link').on('contextmenu', $.proxy(this.suspect, this));
+  return this;
 };
 
 /*
@@ -82,11 +82,11 @@ GameView.prototype.bind = function () {
  * explore field on click
  * */
 GameView.prototype.explore = function (event) {
-	var line = event.target.getAttribute('data-line'),
-			position = event.target.getAttribute('data-position');
+  var line = event.target.getAttribute('data-line'),
+      position = event.target.getAttribute('data-position');
 
-	this.minefield.game.started = true;
-	this.expand(line, position);
+  this.minefield.game.started = true;
+  this.expand(line, position);
 };
 
 /*
@@ -95,25 +95,25 @@ GameView.prototype.explore = function (event) {
  * expand fields by position
  * */
 GameView.prototype.expand = function (line, position) {
-	var field = this.minefield.hasField(line, position),
-	closests = [];
+  var field = this.minefield.hasField(line, position),
+      closests = [];
 
-	// is suspect or done?
-	if (field.suspect || this.minefield.game.done) {
-		return;
-	}
+  // is suspect or done?
+  if (field.suspect || this.minefield.game.done) {
+    return;
+  }
 
-	// set explored
-	closests.push(this.minefield.set(field, 'explored', true));
+  // set explored
+  closests.push(this.minefield.set(field, 'explored', true));
 
-	// is bomb?
-	if (closests[0].bomb) {
-		this.lose(closests[0]).render();
-	}
+  // is bomb?
+  if (closests[0].bomb) {
+    this.lose(closests[0]).render();
+  }
 
-	this.minefield.findExpand(closests);
-	this.render();
-	this.isWinner();
+  this.minefield.findExpand(closests);
+  this.render();
+  this.isWinner();
 };
 
 /*
@@ -122,11 +122,11 @@ GameView.prototype.expand = function (line, position) {
  * execute after lose game
  * */
 GameView.prototype.lose = function (field) {
-	this.minefield.game.done = true;
-	this.minefield.exploredAll();
-	field = this.minefield.set(field, 'death', true);
-	this.showMessage('You lost! try again :D', 'error');
-	return this;
+  this.minefield.game.done = true;
+  this.minefield.exploredAll();
+  field = this.minefield.set(field, 'death', true);
+  this.showMessage('You lost! try again :D', 'error');
+  return this;
 };
 
 /*
@@ -135,12 +135,12 @@ GameView.prototype.lose = function (field) {
  * toggle suspect on click
  * */
 GameView.prototype.suspect = function (event) {
-	event.preventDefault();
-	var line = event.target.getAttribute('data-line'),
-			position = event.target.getAttribute('data-position');
+  event.preventDefault();
+  var line = event.target.getAttribute('data-line'),
+      position = event.target.getAttribute('data-position');
 
-	this.minefield.toggleSuspect(line, position);
-	this.render();
+  this.minefield.toggleSuspect(line, position);
+  this.render();
 };
 
 /*
@@ -149,10 +149,10 @@ GameView.prototype.suspect = function (event) {
  * is user winner
  * */
 GameView.prototype.isWinner = function () {
-	if (this.minefield.subtract() === 0) {
-		this.minefield.game.done = true;
-		this.showMessage('You won! Congrats!', 'success');
-	}
+  if (this.minefield.subtract() === 0) {
+    this.minefield.game.done = true;
+    this.showMessage('You won! Congrats!', 'success');
+  }
 };
 
 /*
@@ -161,7 +161,7 @@ GameView.prototype.isWinner = function () {
  * show message
  * */
 GameView.prototype.showMessage = function (message, state) {
-	this.$message.html(message).addClass('is-active is-' + state);
+  this.$message.html(message).addClass('is-active is-' + state);
 };
 
 /*
@@ -170,5 +170,5 @@ GameView.prototype.showMessage = function (message, state) {
  * hide message
  * */
 GameView.prototype.hideMessage = function (message, state) {
-	this.$message.removeClass('is-active is-error is-succes');
+  this.$message.removeClass('is-active is-error is-succes');
 };
