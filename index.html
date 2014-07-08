@@ -1,128 +1,128 @@
 <!doctype html>
 <html class="no-js">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>MineField</title>
-		<meta name="description" content="">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href='http://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="assets/css/normalize.css">
-		<link rel="stylesheet" href="assets/css/main.css">
-		<link rel="stylesheet" href="assets/css/game.css">
-	</head>
-	<body>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MineField</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/game.css">
+  </head>
+  <body>
 
-		<h1>Minefield</h1>
-		<p>A simple minesweeper created with javascript!</p>
+    <h1>Minefield</h1>
+    <p>A simple minesweeper created with javascript!</p>
 
-		<div class="dificulty">
-			<label for="dificulty">Dificulty</label>
-			<select name="dificulty" id="dificulty">
-				<option value="beginner">Beginner</option>
-				<option value="intermediate" selected="selected">Intermediate</option>
-				<option value="expert">Expert</option>
-			</select>
-		</div>
+    <div class="dificulty">
+      <label for="dificulty">Dificulty</label>
+      <select name="dificulty" id="dificulty">
+        <option value="beginner">Beginner</option>
+        <option value="intermediate" selected="selected">Intermediate</option>
+        <option value="expert">Expert</option>
+      </select>
+    </div>
 
-		<table id="game" class="the-mines">
-		</table>
+    <table id="game" class="the-mines">
+    </table>
 
-		<div class="dificulty">
-			<button name="restart">Restart</button>
-		</div>
+    <div class="dificulty">
+      <button name="restart">Restart</button>
+    </div>
 
-		<div class="message">
-			You lost! try again :D
-		</div>
+    <div class="message">
+      You lost! try again :D
+    </div>
 
-		<a href="https://github.com/weslleyaraujo/minefield" class="fork-me">
-			<img src="assets/images/forkme.png" />
-		</a>
+    <a href="https://github.com/weslleyaraujo/minefield" class="fork-me">
+      <img src="assets/images/forkme.png" />
+    </a>
 
-		<script type="text/template" id="field-template">
-			<td class="field">
-				<a class="field-link <% if (explored) { %> is-explored near-<%= near %> <% } %> <% if (suspect) { %> is-suspected <% } %> <% if (death) { %> is-dead <% } %> <% if (bomb && explored) { %> is-bomb <% } %>"
-					href="javascript:void(0)"
-					data-line="<%= line %>"
-					data-position="<%= position %>">
-					<% if (explored && !(bomb) && (near > 0 )) { %>
-						<%= near %>
-					<% } %>
-				</a>
-			</td>
-		</script>
+    <script type="text/template" id="field-template">
+      <td class="field">
+        <a class="field-link <% if (explored) { %> is-explored near-<%= near %> <% } %> <% if (suspect) { %> is-suspected <% } %> <% if (death) { %> is-dead <% } %> <% if (bomb && explored) { %> is-bomb <% } %>"
+          href="javascript:void(0)"
+          data-line="<%= line %>"
+          data-position="<%= position %>">
+          <% if (explored && !(bomb) && (near > 0 )) { %>
+            <%= near %>
+            <% } %>
+        </a>
+      </td>
+    </script>
 
-		<script src="bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="bower_components/underscore/underscore.js"></script>
-		<script src="assets/javascripts/functionals.js"></script>
-		<script src="assets/javascripts/game-view.js"></script>
-		<script src="assets/javascripts/minefield.js"></script>
-		<script type="text/javascript">
-			var Interactions = (function () {
-				var app,
-				_private,
-				config = {
-					beginner: {
-						x: 8,
-						y: 8,
-						mines: 10
-					},
-					intermediate: {
-						x: 16,
-						y: 16,
-						mines: 30
-					},
-					expert: {
-						x: 32,
-						y: 16,
-						mines: 100
-					}
-				};
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="assets/javascripts/functionals.js"></script>
+    <script src="assets/javascripts/game-view.js"></script>
+    <script src="assets/javascripts/minefield.js"></script>
+    <script type="text/javascript">
+      var Interactions = (function () {
+          var app,
+          _private,
+          config = {
+            beginner: {
+              x: 8,
+              y: 8,
+              mines: 10
+            },
+            intermediate: {
+              x: 16,
+              y: 16,
+              mines: 30
+            },
+            expert: {
+              x: 32,
+              y: 16,
+              mines: 100
+            }
+          };
 
-				_private = {
-					initGame: function () {
-						if (confirm('Do you really want to start a new game?')) {
-							_private.start(_private.getDificulty());
-						}
-					},
+          _private = {
+            initGame: function () {
+              if (confirm('Do you really want to start a new game?')) {
+                _private.start(_private.getDificulty());
+              }
+            },
 
-					getDificulty: function () {
-						return app.elements.$main.val();
-					},
+            getDificulty: function () {
+              return app.elements.$main.val();
+            },
 
-					start: function (dificulty) {
-						new MineField({
-							x: config[dificulty].x,
-							y: config[dificulty].y,
-							mines: config[dificulty].mines
-						});
-					}
-				};
+            start: function (dificulty) {
+              new MineField({
+                x: config[dificulty].x,
+                y: config[dificulty].y,
+                mines: config[dificulty].mines
+              });
+            }
+          };
 
-				app = {
-					init: function () {
-						app.set();
-						app.bind();
-						_private.start(_private.getDificulty());
-					},
+          app = {
+            init: function () {
+              app.set();
+              app.bind();
+              _private.start(_private.getDificulty());
+            },
 
-					set: function () {
-						app.elements = {};
-						app.elements.$main = $('#dificulty');
-						app.elements.$restart = $('button[name="restart"]');
-					},
+            set: function () {
+              app.elements = {};
+              app.elements.$main = $('#dificulty');
+              app.elements.$restart = $('button[name="restart"]');
+            },
 
-					bind: function () {
-						app.elements.$main.on('change', _private.initGame);
-						app.elements.$restart.on('click', _private.initGame);
-					}
-				};
+            bind: function () {
+              app.elements.$main.on('change', _private.initGame);
+              app.elements.$restart.on('click', _private.initGame);
+            }
+          };
 
-				return app;
+          return app;
 
-			}().init())
+        }().init())
 
-		</script>
-	</body>
+      </script>
+  </body>
 </html>
